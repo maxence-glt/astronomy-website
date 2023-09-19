@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css" type="text/css"/>
+    <link href="https://fonts.cdnfonts.com/css/seb-neue" rel="stylesheet">
     <title>Home</title>
 </head>
+
 <body>
-    <div><h1>Home Page</h1></div>
-    <p>Hello, {{ name }}</p>
+    <header>
+        <h1><br>
+            Astronomer's Toolkit
+            <br> <div id="credit2">By Maxence Gilloteaux</div>
+        </h1>
+        <div id="credit">Credit: Matt Hill © 2017 Hovenweep National Monument</div>
+    </header>
+
+    <p>
+        Your location's current cloud cover is: {{ cloud }}% with a visibility of {{ visibility }} meters
+    </p>
+
+
     <script 
      type="text/javascript" 
      src="{{ url_for('static', filename='index.js')}}">
     </script>
+
 </body>
+
 </html>
