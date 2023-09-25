@@ -17,14 +17,11 @@
             <br> <div id="credit2">By Maxence Gilloteaux</div>
         </h1>
         <div id="credit">Credit: Matt Hill © 2017 Hovenweep National Monument</div>
-        <div id="credit">API credit to Geopy, SIMBAD and open-meteo</div>
     </header>
 
-    <p> <form action="/weather" method="POST"> Your location: <input type="text" name="location" placeholder="location"> 
-    </form> </p>
+    <p> {{ name }}'s is: {{ distance }} away, with a magnitude of {{ mag }}. For more information go to {{ wikipedia }}%</p>
 
-    <p> <form action="/astro-catalog" method="POST"> Astronomy object lookup: <input type="text" name="astronomy" placeholder="astronomy"> 
-    </form> </p>
+    <br><form action = "/" method='POST'><input type = "submit" value = "Home"></form>
 
     <script 
      type="text/javascript" 
