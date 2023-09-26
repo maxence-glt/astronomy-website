@@ -5,6 +5,7 @@ h1 {
     width: 50%;
 }
 
+
 #credit {
     color: grey;
     bottom: 0;
@@ -15,6 +16,7 @@ h1 {
 #credit2{
     color: #f5f3eb;
     font-size: 25px;
+    padding: 10px;
 }
 
 body {
@@ -26,14 +28,50 @@ body {
 }
 
 header {
-    background-image: url('milkyway.jpg'); /* Replace 'your-image.jpg' with your image file path */
-    background-size: 100%;
-    background-position: center top; /* This places the image in the upper third of the background */
+    background-image: url('milkyway.jpg'); 
+    background-position: center top;
     background-repeat: no-repeat;
     font-family: 'Seb Neue', sans-serif;     
     font-size: 30px;                    
-    color: #333;
     line-height: 1.6;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
+
+table {
+
+    font-family: arial, sans-serif;
+  
+    border-collapse: collapse;
+  
+    width: 100%;
+  
+  }
+  
+  td, th {
+  
+    border: 2px solid lightgray;
+  
+    text-align: left;
+  
+    padding: 8px;
+  
+  }
+  
+  #tr1 {
+  
+    background-color: #747474;
+  
+  }
+
+  #inline {
+    display: inline;
+    width: 100px;
+    height: 100px;
+    vertical-align: middle;
+  }
+
+  h2{
+    display: inline;
+  }
