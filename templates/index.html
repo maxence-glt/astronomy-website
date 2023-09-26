@@ -16,11 +16,63 @@
             Astronomer's Toolkit
             <br> <div id="credit2">By Maxence Gilloteaux</div>
         </h1>
-        <div id="credit">Credit: Matt Hill © 2017 Hovenweep National Monument</div>
+        <div id="credit">Photo Credit: Matt Hill © 2017 Hovenweep National Monument</div>
         <div id="credit">API credit to Geopy, SIMBAD and open-meteo</div>
     </header>
 
-    <p> <form action="/weather" method="POST"> Your location: <input type="text" name="location" placeholder="location"> 
+    <h2>{{ location }} <img src="../static/sunrise.png" id="inline"> {{ sunrise }}  <img src="../static/sunset.png" id="inline"> {{ sunset }}</h2>
+    <table style="border: 5px solid lightgrey; border-collapse: collapse" >
+        <tr id="tr1">
+            <th>Hours ahead:</th>
+            <th>0</th>
+            <th>+1</th>
+            <th>+2</th>
+            <th>+3</th>
+            <th>+4</th>
+        </tr>
+        <tr>
+            <td>Total Cloud Cover</td>
+            <td>{{ cloud1 }}</td>
+            <td>{{ cloud2 }}</td>
+            <td>{{ cloud3 }}</td>
+            <td>{{ cloud4 }}</td>
+            <td>{{ cloud5 }}</td>
+        </tr>
+        <tr>
+            <td>Visibility</td>
+            <td>{{ visibility1 }}</td>
+            <td>{{ visibility2 }}</td>
+            <td>{{ visibility3 }}</td>
+            <td>{{ visibility4 }}</td>
+            <td>{{ visibility5 }}</td>
+        </tr>
+        <tr>
+            <td>Precipitation chance</td>
+            <td>{{ prec1 }}</td>
+            <td>{{ prec2 }}</td>
+            <td>{{ prec3 }}</td>
+            <td>{{ prec4 }}</td>
+            <td>{{ prec5 }}</td>
+        </tr>
+        <tr>
+            <td>Humidity</td>
+            <td>{{ humid1 }}</td>
+            <td>{{ humid2 }}</td>
+            <td>{{ humid3 }}</td>
+            <td>{{ humid4 }}</td>
+            <td>{{ humid5 }}</td>
+        </tr>
+        <tr>
+            <td>Wind speed</td>
+            <td>{{ wind1 }}</td>
+            <td>{{ wind2 }}</td>
+            <td>{{ wind3 }}</td>
+            <td>{{ wind4 }}</td>
+            <td>{{ wind5 }}</td>
+        </tr>
+    </table>
+
+    <p> <form action="/" method="POST"> Your location: <input type="text" name="location" placeholder="location"> 
     </form> </p>
 
     <p> <form action="/astro-catalog" method="POST"> Astronomy object lookup: <input type="text" name="astronomy" placeholder="astronomy"> 
