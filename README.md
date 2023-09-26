@@ -1,2 +1,2 @@
 # astronomy-website
-My webite for astronomy viewing, made with Svelte and Flask
+My webite for astronomy viewing, made with Python Flask
