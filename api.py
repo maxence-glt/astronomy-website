@@ -13,15 +13,15 @@ from astroquery.simbad import Simbad
 # ssl certification for geopy and VOT mods for SIMBAD
 ctx = ssl.create_default_context(cafile=certifi.where())
 geopy.geocoders.options.default_ssl_context = ctx
-Simbad.add_votable_fields('flux(V)', 'distance')
+Simbad.add_votable_fields('distance', 'flux(V)', 'id(NAME)', 'sptype')
 
 
-def degToCompass(num):
+def degToCompass(num) -> str:
     val=int((num/22.5)+.5)
     arr=["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
     return arr[(val % 16)]
 
-def time_format(time):
+def time_format(time: str) -> str:
     hour = int(time[:2])
     if hour < 10:
         return time[1:] + " AM"
@@ -31,7 +31,7 @@ def time_format(time):
         hour = hour - 12
         return str(hour) + time[2:] + " PM"
 
-def weather_specs(location: str) -> tuple[str, str, str]:
+def weather_specs(location: str) -> dict:
     """Function that takes in any location on earth and (address, city, state)
     and returns a tuple with the attributes, in order, of the precipitation 
     probability, the cloud cover and the visibility of the input location at the
@@ -80,12 +80,25 @@ def weather_specs(location: str) -> tuple[str, str, str]:
 
 def astro_object(obj: str) -> dict:
     result_table = Simbad.query_object(str(obj))
-    if result_table is None: return "The inputed object was not recognized by the SIMBAD Astronomical Database"
+    if result_table is None: return False
+
+    wiki_extract = requests.get(f"https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={obj}").json()["query"]["pages"]
+
+    if '-1' in wiki_extract:
+        wiki_output = "No wikipedia extract found! Try searching the object's wikipedia page through a web browser"
+    
+    if '-1' not in wiki_extract:
+        wiki_output = wiki_extract[next(iter(wiki_extract))]["extract"]
 
     obj_list = {
-        "name": result_table[0][0],
-        "distance": str(result_table[0][-8]) + result_table[0][-6],
-        "apparent magnitude": result_table[0][-9],
-        "wikipedia": f"wikipedia.org/wiki/{obj.replace(' ', '_')}"
+        "id": result_table["MAIN_ID"][0],
+        "name": result_table["ID_NAME"][0][5:],
+        "distance": str(result_table["Distance_distance"][0]) + result_table["Distance_unit"][0],
+        "apparent magnitude": result_table["FLUX_V"][0],
+        "spectral type": result_table["SP_TYPE"][0],
+        "wikipedia": f"wikipedia.org/wiki/{obj.replace(' ', '_')}",
+        "wiki summary": wiki_output
     }
     return obj_list
+
+print(astro_object("betelguse"))
