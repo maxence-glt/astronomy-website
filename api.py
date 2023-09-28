@@ -3,24 +3,41 @@ import requests
 import ssl
 import certifi
 import geopy.geocoders
+import sys
+import json
+
 from geopy.geocoders import Nominatim
+
 from astroquery.simbad import Simbad
 
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
+from urllib.parse import quote as urlencode
 
-
-
-# ssl certification for geopy and VOT mods for SIMBAD
-ctx = ssl.create_default_context(cafile=certifi.where())
-geopy.geocoders.options.default_ssl_context = ctx
-Simbad.add_votable_fields('distance', 'flux(V)', 'id(NAME)', 'sptype')
-
-
+# Helper functions
+def mast_query(request):
+    request_url='https://mast.stsci.edu/api/v0/invoke'    
+    version = ".".join(map(str, sys.version_info[:3]))
+    headers = {"Content-type": "application/x-www-form-urlencoded",
+            "Accept": "text/plain",
+            "User-agent":"python-requests/"+version}
+    req_string = json.dumps(request)
+    req_string = urlencode(req_string)
+    
+    resp = requests.post(request_url, data="request="+req_string, headers=headers)
+    
+    head = resp.headers
+    content = resp.content.decode('utf-8')
+    return head, content
+def set_filters(parameters):
+    return [{"paramName":p, "values":v} for p,v in parameters.items()]
+def set_min_max(min, max):
+    return [{'min': min, 'max': max}]
 def degToCompass(num) -> str:
     val=int((num/22.5)+.5)
     arr=["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
     return arr[(val % 16)]
-
 def time_format(time: str) -> str:
     hour = int(time[:2])
     if hour < 10:
@@ -30,6 +47,16 @@ def time_format(time: str) -> str:
     else:
         hour = hour - 12
         return str(hour) + time[2:] + " PM"
+
+
+
+# ssl certification for geopy and VOT mods for SIMBAD
+ctx = ssl.create_default_context(cafile=certifi.where())
+geopy.geocoders.options.default_ssl_context = ctx
+Simbad.add_votable_fields('distance', 'flux(V)', 'id(NAME)', 'sptype')
+
+
+
 
 def weather_specs(location: str) -> dict:
     """Function that takes in any location on earth and (address, city, state)
@@ -80,9 +107,24 @@ def weather_specs(location: str) -> dict:
 
 def astro_object(obj: str) -> dict:
     result_table = Simbad.query_object(str(obj))
+
     if result_table is None: return False
 
+    resolver_request = {'service':'Mast.Name.Lookup',
+                        'params':{'input':obj,
+                                'format':'json'},
+                        }
+    headers, resolved_object_string = mast_query(resolver_request)
+    resolved_object = json.loads(resolved_object_string)
+
+    obj_ra, obj_dec = resolved_object['resolvedCoordinate'][0]['ra'], resolved_object['resolvedCoordinate'][0]['decl']
+
+    picture = f"http://gsss.stsci.edu/webservices/dssjpg/dss.svc/GetImage?POS={obj_ra},{obj_dec}&SIZE=0"
+
+
+
     wiki_extract = requests.get(f"https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles={obj}").json()["query"]["pages"]
+
 
     if '-1' in wiki_extract:
         wiki_output = "No wikipedia extract found! Try searching the object's wikipedia page through a web browser"
@@ -97,8 +139,7 @@ def astro_object(obj: str) -> dict:
         "apparent magnitude": result_table["FLUX_V"][0],
         "spectral type": result_table["SP_TYPE"][0],
         "wikipedia": f"wikipedia.org/wiki/{obj.replace(' ', '_')}",
-        "wiki summary": wiki_output
+        "wiki summary": wiki_output,
+        "picture": picture
     }
     return obj_list
-
-print(astro_object("betelguse"))
