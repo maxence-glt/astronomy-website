@@ -75,8 +75,31 @@
     <p> <form action="/" method="POST"> Your location: <input type="text" name="location" placeholder="location"> 
     </form> </p>
 
-    <p> <form action="/astro-catalog" method="POST"> Astronomy object lookup: <input type="text" name="astronomy" placeholder="astronomy"> 
+    <br><br><br><br><br>
+
+    <h2>Astronomy catalog</h2>
+    <br>
+    <h3>{{ id }}, {{ name }} </h3>
+
+    <table>
+    <tr id="tr1">
+        <th>Distance</th>
+        <th>Apparent magnitude</th>
+        <th>Spectral type</th>
+        <th>(possible) Wiki page</th>
+    </tr>
+    <tr>
+        <td>{{ distance }}</td>
+        <td>{{ app_mag }}</td>
+        <td>{{ spectp }}</td>
+        <td>{{ wiki }}</td>
+    </tr>
+    </table>
+    <p>{{ wiki_sum }}</p>
+
+    <p> <form action="/" method="POST"> Astronomy object lookup: <input type="text" name="astronomy" placeholder="object"> 
     </form> </p>
+
 
     <script 
      type="text/javascript" 
