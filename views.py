@@ -4,7 +4,7 @@ from api import weather_specs, astro_object
 views = Blueprint(__name__, "views")
 
 default_weather = weather_specs("New York City")
-default_astronomy = astro_object("Betelgeuse")
+default_astronomy = astro_object("Sombrero Galaxy")
 
 
 @views.route("/", methods = ['POST', 'GET'])
@@ -46,7 +46,8 @@ def home():
                                                         app_mag=default_astronomy["apparent magnitude"],
                                                         spectp=default_astronomy["spectral type"],
                                                         wiki=default_astronomy["wikipedia"],
-                                                        wiki_sum=default_astronomy["wiki summary"])
+                                                        wiki_sum=default_astronomy["wiki summary"],
+                                                        picture=default_astronomy["picture"])
     
     if request.method == 'POST':
         obj = request.form.get("astronomy")
@@ -54,12 +55,12 @@ def home():
 
         if obj == None:
             weather = weather_specs(str(location))
-            if weather == False: return render_template('error.html')
+            if weather == False: return render_template('error.html', request=location)
             default_weather = weather
 
         if location == None:
             astro_list = astro_object(str(obj))
-            if astro_list == False: return render_template('error.html')
+            if astro_list == False: return render_template('error.html', request=obj)
             default_astronomy = astro_list
 
 
@@ -101,7 +102,8 @@ def home():
                                                         app_mag=default_astronomy["apparent magnitude"],
                                                         spectp=default_astronomy["spectral type"],
                                                         wiki=default_astronomy["wikipedia"],
-                                                        wiki_sum=default_astronomy["wiki summary"])
+                                                        wiki_sum=default_astronomy["wiki summary"],
+                                                        picture=default_astronomy["picture"])
 
 
 
