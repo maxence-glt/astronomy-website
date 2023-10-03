@@ -119,7 +119,7 @@ def astro_object(obj: str) -> dict:
 
     obj_ra, obj_dec = resolved_object['resolvedCoordinate'][0]['ra'], resolved_object['resolvedCoordinate'][0]['decl']
 
-    picture = f"http://gsss.stsci.edu/webservices/dssjpg/dss.svc/GetImage?POS={obj_ra},{obj_dec}&SIZE=0"
+    picture = f"http://gsss.stsci.edu/webservices/dssjpg/dss.svc/GetImage?POS={obj_ra},{obj_dec}&SIZE=2"
 
 
 
@@ -139,7 +139,9 @@ def astro_object(obj: str) -> dict:
         "apparent magnitude": result_table["FLUX_V"][0],
         "spectral type": result_table["SP_TYPE"][0],
         "wikipedia": f"wikipedia.org/wiki/{obj.replace(' ', '_')}",
-        "wiki summary": wiki_output,
+        "wiki summary": "\t" + str(wiki_output),
         "picture": picture
     }
     return obj_list
+
+#TODO add reccomended object lookups like Eta Carina, horsehead nebula
