@@ -20,8 +20,14 @@ p {
 
 img { 
 
-    width:540px; /* you can use % */
+    width:540px;
     height: auto;
+
+}
+
+#astroimg{
+
+  float: left
 
 }
 
@@ -70,6 +76,14 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    margin-top: 5px;
+  
+  }
+
+  #table2 {
+
+    margin-top: 10%;
+    margin-bottom: 5%
   
   }
   
@@ -85,6 +99,15 @@ table {
   
     background-color: #747474;
   
+  }
+
+  #astro-desc{
+
+    vertical-align: top;
+    margin-left: 35%;
+    margin-right: 5%;
+    margin-top: 5%;
+
   }
 
   #inline {
@@ -112,5 +135,12 @@ table {
 
     background-color: #2b2b2b;
     color: #f5f3eb;
+
+  }
+
+  #main {
+
+    margin-right: 5%;
+    margin-left: 5%;
 
   }
