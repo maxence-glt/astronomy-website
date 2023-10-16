@@ -85,7 +85,7 @@ def weather_specs(location: str) -> dict:
         "visibility3": f'{response.json()["hourly"]["visibility"][dt.datetime.now().hour + 2]} meters',
         "visibility4": f'{response.json()["hourly"]["visibility"][dt.datetime.now().hour + 3]} meters',
         "visibility5": f'{response.json()["hourly"]["visibility"][dt.datetime.now().hour + 4]} meters',
-        "prec1": f'{response.json()["hourly"]["precipitation_probability"][dt.datetime.now().hour]}',
+        "prec1": f'{response.json()["hourly"]["precipitation_probability"][dt.datetime.now().hour]}%',
         "prec2": f'{response.json()["hourly"]["precipitation_probability"][dt.datetime.now().hour + 1]}%',
         "prec3": f'{response.json()["hourly"]["precipitation_probability"][dt.datetime.now().hour + 2]}%',
         "prec4": f'{response.json()["hourly"]["precipitation_probability"][dt.datetime.now().hour + 3]}%',
@@ -119,7 +119,7 @@ def astro_object(obj: str) -> dict:
 
     obj_ra, obj_dec = resolved_object['resolvedCoordinate'][0]['ra'], resolved_object['resolvedCoordinate'][0]['decl']
 
-    picture = f"http://gsss.stsci.edu/webservices/dssjpg/dss.svc/GetImage?POS={obj_ra},{obj_dec}&SIZE=2"
+    picture = f"http://gsss.stsci.edu/webservices/dssjpg/dss.svc/GetImage?POS={obj_ra},{obj_dec}&SIZE=1"
 
 
 
